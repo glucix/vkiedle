@@ -2,7 +2,9 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vkiedle - Zgadnij utwór Vkie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     /* RESET */
     * {
@@ -10,9 +12,13 @@
       padding: 0;
       box-sizing: border-box;
     }
+    
+    /* Czarny-szary, animowany gradient tła */
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: linear-gradient(135deg, #1a1a1a, #333);
+      background: linear-gradient(135deg, #000, #333);
+      background-size: 200% 200%;
+      animation: bgAnimation 20s linear infinite;
       color: #f0f0f0;
       min-height: 100vh;
       display: flex;
@@ -21,37 +27,54 @@
       padding: 20px;
       overflow-x: hidden;
     }
+    
+    @keyframes bgAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
     h1 {
+      font-family: 'Bebas Neue', sans-serif;
       font-size: 60px;
       margin: 20px 0;
       text-transform: uppercase;
       letter-spacing: 4px;
-      color: #ffcc00;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+      text-align: center;
     }
+    
     .subtitle {
       font-size: 18px;
       margin-bottom: 20px;
       color: #ccc;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+      text-align: center;
     }
+    
     .game-container {
       position: relative;
       width: 100%;
       max-width: 700px;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       padding: 25px;
       border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
       overflow: hidden;
     }
+    
     .input-container {
       position: relative;
       margin-bottom: 20px;
     }
+    
     .input-area {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
+    
     .input-area input[type="text"] {
       flex: 1;
       padding: 14px;
@@ -61,11 +84,15 @@
       outline: none;
       background: #222;
       color: #f0f0f0;
-      transition: background 0.3s;
+      transition: background 0.3s, box-shadow 0.3s;
+      min-width: 0;
     }
+    
     .input-area input[type="text"]:focus {
       background: #2a2a2a;
+      box-shadow: 0 0 8px #ffcc00;
     }
+    
     .input-area button {
       padding: 14px 22px;
       font-size: 18px;
@@ -74,11 +101,15 @@
       cursor: pointer;
       background: #ffcc00;
       color: #222;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
+      flex-shrink: 0;
     }
+    
     .input-area button:hover {
       background: #e6b800;
+      transform: scale(1.03);
     }
+    
     .suggestions {
       position: absolute;
       top: 100%;
@@ -93,29 +124,35 @@
       display: none;
       border-radius: 0 0 4px 4px;
     }
+    
     .suggestion-item {
       padding: 10px;
       cursor: pointer;
       transition: background 0.2s;
     }
+    
     .suggestion-item:hover {
       background: #444;
     }
+    
     .board {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 8px;
       margin-bottom: 20px;
     }
+    
     .board .header {
       font-weight: bold;
       text-align: center;
       padding: 8px;
       border-bottom: 2px solid #555;
     }
+    
     .guess-row {
       display: contents;
     }
+    
     .cell {
       text-align: center;
       padding: 10px;
@@ -128,30 +165,37 @@
       font-size: 16px;
       transition: background 0.3s;
     }
+    
     .correct {
       background-color: #3c6;
       color: #fff;
     }
+    
     .close {
       background-color: #f1c40f;
       color: #222;
     }
+    
     .wrong {
       background-color: #555;
       color: #ccc;
     }
+    
     .result-area {
       text-align: center;
       margin-bottom: 20px;
       font-size: 20px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
     }
+    
     .cover-image {
       display: block;
       margin: 10px auto;
       max-width: 250px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
     }
+    
     .restart-btn {
       display: block;
       margin: 20px auto;
@@ -162,16 +206,21 @@
       background: #ffcc00;
       color: #222;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
     }
+    
     .restart-btn:hover {
       background: #e6b800;
+      transform: scale(1.03);
     }
+    
     footer {
       margin-top: 40px;
       font-size: 14px;
       color: #777;
+      text-align: center;
     }
+    
     /* Particle container */
     #particle-container {
       position: absolute;
@@ -183,6 +232,7 @@
       overflow: hidden;
       z-index: 100;
     }
+    
     .particle {
       position: absolute;
       width: 8px;
@@ -192,6 +242,7 @@
       opacity: 1;
       animation: particleAnimation 1s ease-out forwards;
     }
+    
     @keyframes particleAnimation {
       0% {
         transform: translate(0, 0) scale(1);
@@ -200,6 +251,36 @@
       100% {
         transform: translate(var(--tx), var(--ty)) scale(0.5);
         opacity: 0;
+      }
+    }
+    
+    /* Responsywność na urządzenia mobilne */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 40px;
+      }
+      .subtitle {
+        font-size: 16px;
+      }
+      .game-container {
+        padding: 20px;
+      }
+      .input-area input[type="text"],
+      .input-area button {
+        font-size: 16px;
+        padding: 12px;
+      }
+      .board .header {
+        font-size: 14px;
+        padding: 6px;
+      }
+      .cell {
+        font-size: 14px;
+        padding: 8px;
+      }
+      .restart-btn {
+        font-size: 16px;
+        padding: 12px 20px;
       }
     }
   </style>
@@ -231,7 +312,7 @@
   <footer>
     Stworzone inspirowane <a href="https://yeezle.xyz" target="_blank" style="color: #ffcc00;">yeezle.xyz</a>
   </footer>
-
+  
   <script>
     // Lista piosenek Vkie z albumu "Dżungla"
     const songsData = [
@@ -255,13 +336,13 @@
       { title: "Kochanie Zrozum Mnie [Bonus Track]", album: "Dżungla", trackNumber: 18, length: 240, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
       { title: "Pustka [Bonus Track] (feat. Olszakumpel)", album: "Dżungla", trackNumber: 19, length: 230, features: ["Olszakumpel"], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" }
     ];
-
+    
     let eliminatedTitles = [];
     const MAX_GUESSES = 8;
     let secretSong = null;
     let attempts = 0;
     let gameOver = false;
-
+    
     const guessInput = document.getElementById("guessInput");
     const guessBtn = document.getElementById("guessBtn");
     const board = document.getElementById("board");
@@ -270,7 +351,7 @@
     const restartBtn = document.getElementById("restartBtn");
     const suggestionsContainer = document.getElementById("suggestions");
     const particleContainer = document.getElementById("particle-container");
-
+    
     // Funkcja pokazująca sugestie podczas wpisywania
     function handleSuggestions() {
       const query = guessInput.value.trim().toLowerCase();
@@ -300,16 +381,16 @@
       });
       suggestionsContainer.style.display = "block";
     }
-
+    
     guessInput.addEventListener("input", handleSuggestions);
-
+    
     // Pomocnicza funkcja do dodawania strzałki
     function getArrow(guess, secret) {
       if (guess < secret) return " ↑";
       if (guess > secret) return " ↓";
       return "";
     }
-
+    
     // Porównanie albumu
     function compareAlbum(guessAlbum, secretAlbum) {
       if (guessAlbum === secretAlbum) {
@@ -317,7 +398,7 @@
       }
       return { status: "wrong", label: guessAlbum };
     }
-
+    
     // Porównanie numeru utworu
     function compareTrackNumber(guessNum, secretNum) {
       if (guessNum === secretNum) {
@@ -331,7 +412,7 @@
       }
       return { status: "wrong", label: guessNum };
     }
-
+    
     // Porównanie długości utworu (w sekundach)
     function compareLength(guessLen, secretLen) {
       if (guessLen === secretLen) {
@@ -345,7 +426,7 @@
       }
       return { status: "wrong", label: formatLength(guessLen) };
     }
-
+    
     // Porównanie featured – jeżeli choć jeden element pasuje, to "close"
     function compareFeatures(guessFeatures, secretFeatures) {
       const guessLower = guessFeatures.map(f => f.toLowerCase());
@@ -360,14 +441,14 @@
       }
       return { status: "wrong", label: guessFeatures.join(", ") || "Brak" };
     }
-
+    
     // Formatowanie długości (mm:ss)
     function formatLength(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
       return `${m}:${s.toString().padStart(2, "0")}`;
     }
-
+    
     // Dodawanie wiersza do planszy
     function addGuessRow(guessData) {
       const rowCells = [];
@@ -383,11 +464,11 @@
       rowCells.forEach(cell => rowContainer.appendChild(cell));
       board.appendChild(rowContainer);
     }
-
-    // Funkcja generująca particle efekty (confetti) przy wygranej
+    
+    // Funkcja generująca particle efekty (confetti) przy wygranej – zwiększona liczba cząsteczek
     function spawnParticles() {
       const colors = ["#ffcc00", "#ff6699", "#66ccff", "#99ff66", "#ff9900"];
-      const numParticles = 50;
+      const numParticles = 150;
       const containerRect = particleContainer.getBoundingClientRect();
       const originX = containerRect.width / 2;
       const originY = containerRect.height / 2;
@@ -395,35 +476,29 @@
       for (let i = 0; i < numParticles; i++) {
         const particle = document.createElement("div");
         particle.classList.add("particle");
-        // Losowy kolor
         const color = colors[Math.floor(Math.random() * colors.length)];
         particle.style.setProperty("--color", color);
-        // Ustawienie początkowej pozycji (centralnie)
         particle.style.left = originX + "px";
         particle.style.top = originY + "px";
-        // Losowy kierunek i odległość (w px)
-        const tx = (Math.random() - 0.5) * 300; // zakres od -150 do 150 px
+        const tx = (Math.random() - 0.5) * 300;
         const ty = (Math.random() - 0.5) * 300;
         particle.style.setProperty("--tx", tx + "px");
         particle.style.setProperty("--ty", ty + "px");
         particleContainer.appendChild(particle);
-        // Usunięcie particle po zakończeniu animacji
         particle.addEventListener("animationend", () => {
           particle.remove();
         });
       }
     }
-
+    
     // Obsługa zgadywania
     function handleGuess() {
       if (gameOver) return;
       const guessTitle = guessInput.value.trim();
       if (!guessTitle) return;
-      // Szukanie piosenki (ignorujemy wielkość liter)
       const guessedSong = songsData.find(song => song.title.toLowerCase() === guessTitle.toLowerCase());
       attempts++;
-
-      // Jeśli nie znaleziono piosenki, dodaj wiersz komunikatu
+    
       if (!guessedSong) {
         addGuessRow({
           title: { status: "wrong", label: guessTitle },
@@ -438,14 +513,13 @@
         suggestionsContainer.style.display = "none";
         return;
       }
-
-      // Jeśli piosenka jest błędna, dodajemy ją do eliminowanych (by nie pojawiła się w podpowiedziach)
+    
       if (guessedSong.title.toLowerCase() !== secretSong.title.toLowerCase()) {
         if (!eliminatedTitles.includes(guessedSong.title.toLowerCase())) {
           eliminatedTitles.push(guessedSong.title.toLowerCase());
         }
       }
-
+    
       const titleData = {
         status: (guessedSong.title.toLowerCase() === secretSong.title.toLowerCase()) ? "correct" : "wrong",
         label: guessedSong.title
@@ -454,7 +528,7 @@
       const trackData = compareTrackNumber(guessedSong.trackNumber, secretSong.trackNumber);
       const lengthData = compareLength(guessedSong.length, secretSong.length);
       const featuresData = compareFeatures(guessedSong.features, secretSong.features);
-
+    
       addGuessRow({
         title: titleData,
         album: albumData,
@@ -462,8 +536,7 @@
         length: lengthData,
         features: featuresData
       });
-
-      // Jeśli piosenka została trafiona, gra kończy się i uruchamia particle efekt
+    
       if (guessedSong.title.toLowerCase() === secretSong.title.toLowerCase()) {
         endGame(true);
         return;
@@ -475,7 +548,7 @@
       suggestionsContainer.innerHTML = "";
       suggestionsContainer.style.display = "none";
     }
-
+    
     function endGame(win) {
       gameOver = true;
       guessInput.disabled = true;
@@ -483,7 +556,6 @@
       restartBtn.style.display = "block";
       if (win) {
         resultMessage.textContent = `Gratulacje! To faktycznie "${secretSong.title}"!`;
-        // Po wygranej uruchamiamy particle efekt
         spawnParticles();
       } else {
         resultMessage.textContent = `Koniec prób! Poprawna odpowiedź: "${secretSong.title}".`;
@@ -492,9 +564,8 @@
       coverImage.alt = secretSong.title;
       coverImage.style.display = "block";
     }
-
+    
     function startGame() {
-      // Usuwamy poprzednie wiersze (wszystkie .guess-row)
       document.querySelectorAll(".guess-row").forEach(row => row.remove());
       attempts = 0;
       gameOver = false;
@@ -508,13 +579,11 @@
       eliminatedTitles = [];
       suggestionsContainer.innerHTML = "";
       suggestionsContainer.style.display = "none";
-      // Czyścimy container z particle (jeśli coś pozostało)
       particleContainer.innerHTML = "";
-      // Losujemy tajną piosenkę
       secretSong = songsData[Math.floor(Math.random() * songsData.length)];
       console.log("Tajna piosenka:", secretSong.title);
     }
-
+    
     guessBtn.addEventListener("click", handleGuess);
     guessInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
@@ -522,9 +591,8 @@
       }
     });
     restartBtn.addEventListener("click", startGame);
-
-    // Uruchom grę przy starcie
+    
     startGame();
   </script>
 </body>
-  </html>
+</html>
