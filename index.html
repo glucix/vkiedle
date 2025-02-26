@@ -4,290 +4,325 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vkiedle - Zgadnij utwór Vkie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">\
   <style>
-    /* RESET */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    /* Czarny-szary, animowany gradient tła */
-    body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: linear-gradient(135deg, #000, #333);
-      background-size: 200% 200%;
-      animation: bgAnimation 20s linear infinite;
-      color: #f0f0f0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      overflow-x: hidden;
-    }
-    
-    @keyframes bgAnimation {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 60px;
-      margin: 20px 0;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      color: #fff;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-      text-align: center;
-    }
-    
-    .subtitle {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #ccc;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-      text-align: center;
-    }
-    
-    .game-container {
-      position: relative;
-      width: 100%;
-      max-width: 700px;
-      background: rgba(0, 0, 0, 0.85);
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.8);
-      overflow: hidden;
-    }
-    
-    .input-container {
-      position: relative;
-      margin-bottom: 20px;
-    }
-    
-    .input-area {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    
-    .input-area input[type="text"] {
-      flex: 1;
-      padding: 14px;
-      font-size: 18px;
-      border: none;
-      border-radius: 4px;
-      outline: none;
-      background: #222;
-      color: #f0f0f0;
-      transition: background 0.3s, box-shadow 0.3s;
-      min-width: 0;
-    }
-    
-    .input-area input[type="text"]:focus {
-      background: #2a2a2a;
-      box-shadow: 0 0 8px #ffcc00;
-    }
-    
-    .input-area button {
-      padding: 14px 22px;
-      font-size: 18px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      background: #ffcc00;
-      color: #222;
-      transition: background 0.3s, transform 0.2s;
-      flex-shrink: 0;
-    }
-    
-    .input-area button:hover {
-      background: #e6b800;
-      transform: scale(1.03);
-    }
-    
-    .suggestions {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: #222;
-      border: 1px solid #444;
-      border-top: none;
-      max-height: 150px;
-      overflow-y: auto;
-      z-index: 10;
-      display: none;
-      border-radius: 0 0 4px 4px;
-    }
-    
-    .suggestion-item {
-      padding: 10px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
-    .suggestion-item:hover {
-      background: #444;
-    }
-    
-    .board {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-    
-    .board .header {
-      font-weight: bold;
-      text-align: center;
-      padding: 8px;
-      border-bottom: 2px solid #555;
-    }
-    
-    .guess-row {
-      display: contents;
-    }
-    
-    .cell {
-      text-align: center;
-      padding: 10px;
-      border-radius: 4px;
-      background-color: #555;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      transition: background 0.3s;
-    }
-    
-    .correct {
-      background-color: #3c6;
-      color: #fff;
-    }
-    
-    .close {
-      background-color: #f1c40f;
-      color: #222;
-    }
-    
-    .wrong {
-      background-color: #555;
-      color: #ccc;
-    }
-    
-    .result-area {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 20px;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-    }
-    
-    .cover-image {
-      display: block;
-      margin: 10px auto;
-      max-width: 250px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.7);
-    }
-    
-    .restart-btn {
-      display: block;
-      margin: 20px auto;
-      padding: 14px 28px;
-      font-size: 18px;
-      border: none;
-      border-radius: 4px;
-      background: #ffcc00;
-      color: #222;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-    }
-    
-    .restart-btn:hover {
-      background: #e6b800;
-      transform: scale(1.03);
-    }
-    
-    footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #777;
-      text-align: center;
-    }
-    
-    /* Particle container */
-    #particle-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 100;
-    }
-    
-    .particle {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background-color: var(--color);
-      border-radius: 50%;
-      opacity: 1;
-      animation: particleAnimation 1s ease-out forwards;
-    }
-    
-    @keyframes particleAnimation {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--tx), var(--ty)) scale(0.5);
-        opacity: 0;
-      }
-    }
-    
-    /* Responsywność na urządzenia mobilne */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 40px;
-      }
-      .subtitle {
-        font-size: 16px;
-      }
-      .game-container {
-        padding: 20px;
-      }
-      .input-area input[type="text"],
-      .input-area button {
-        font-size: 16px;
-        padding: 12px;
-      }
-      .board .header {
-        font-size: 14px;
-        padding: 6px;
-      }
-      .cell {
-        font-size: 14px;
-        padding: 8px;
-      }
-      .restart-btn {
-        font-size: 16px;
-        padding: 12px 20px;
-      }
-    }
-  </style>
+  /* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Czarny-szary, animowany gradient tła */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #000, #333);
+  background-size: 200% 200%;
+  animation: bgAnimation 20s linear infinite;
+  color: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@keyframes bgAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 60px;
+  margin: 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #fff;
+  text-shadow: 3px 3px 15px rgba(0,0,0,0.8);
+  text-align: center;
+  animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.subtitle {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #ccc;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  text-align: center;
+  transition: color 0.3s;
+}
+
+.subtitle:hover {
+  color: #ffcc00;
+}
+
+.game-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.game-container:hover {
+  box-shadow: 0 0 40px rgba(0,0,0,0.9);
+}
+
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.input-area input[type="text"] {
+  flex: 1;
+  padding: 14px;
+  font-size: 18px;
+  border: 2px solid #444;
+  border-radius: 6px;
+  outline: none;
+  background: #222;
+  color: #f0f0f0;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.input-area input[type="text"]:focus {
+  background: #2a2a2a;
+  box-shadow: 0 0 8px #ffcc00;
+  transform: scale(1.02);
+}
+
+.input-area button {
+  padding: 14px 22px;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #ffcc00;
+  color: #222;
+  transition: background 0.3s, transform 0.3s;
+  flex-shrink: 0;
+}
+
+.input-area button:hover {
+  background: #e6b800;
+  transform: scale(1.05);
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #222;
+  border: 1px solid #444;
+  border-top: none;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+  display: none;
+  border-radius: 0 0 6px 6px;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.suggestion-item:hover {
+  background: #444;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.board .header {
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  border-bottom: 2px solid #555;
+}
+
+.guess-row {
+  display: contents;
+}
+
+.cell {
+  text-align: center;
+  padding: 12px;
+  border-radius: 6px;
+  background-color: #555;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.cell:hover {
+  transform: scale(1.05);
+}
+
+.correct {
+  background-color: #3c6;
+  color: #fff;
+}
+
+.close {
+  background-color: #f1c40f;
+  color: #222;
+}
+
+.wrong {
+  background-color: #555;
+  color: #ccc;
+}
+
+.result-area {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
+.cover-image {
+  display: block;
+  margin: 10px auto;
+  max-width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.7);
+}
+
+.restart-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 14px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px;
+  background: #ffcc00;
+  color: #222;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.restart-btn:hover {
+  background: #e6b800;
+  transform: scale(1.05);
+}
+
+/* Przyciski Spotify/YouTube – wyświetlane obok siebie */
+#mediaButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #777;
+  text-align: center;
+}
+
+/* Particle container */
+#particle-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color);
+  border-radius: 50%;
+  opacity: 1;
+  animation: particleAnimation 1s ease-out forwards;
+}
+
+@keyframes particleAnimation {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .game-container {
+    padding: 20px;
+  }
+
+  .input-area input[type="text"],
+  .input-area button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .board .header {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  .cell {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .restart-btn {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+}
+</style>
 </head>
 <body>
   <h1>Vkiedle</h1>
-  <div class="subtitle">Zgadnij tajemniczy utwór Vkie – masz 8 prób!</div>
+  <div class="subtitle">Zgadnij tajemniczy utwór Vkie – masz nieograniczone próby!</div>
   <div class="game-container">
     <!-- Container na particle efekty -->
     <div id="particle-container"></div>
@@ -301,48 +336,94 @@
     <div class="board" id="board">
       <div class="header">Tytuł</div>
       <div class="header">Album</div>
-      <div class="header">Track No.</div>
+      <div class="header">Nr utworu</div>
       <div class="header">Długość</div>
       <div class="header">Goście</div>
     </div>
     <div class="result-area" id="resultMessage"></div>
     <img id="coverImage" class="cover-image" src="" alt="" style="display:none;">
     <button class="restart-btn" id="restartBtn" style="display:none;">Zagraj ponownie</button>
+    <!-- Kontener na przyciski Spotify/YouTube -->
+    <div id="mediaButtons" style="display:none;"></div>
   </div>
   <footer>
     Stworzone inspirowane <a href="https://yeezle.xyz" target="_blank" style="color: #ffcc00;">yeezle.xyz</a>
   </footer>
-  
+ 
   <script>
-    // Lista piosenek Vkie z albumu "Dżungla"
-    const songsData = [
-      { title: "My Kontra Oni", album: "Dżungla", trackNumber: 1, length: 210, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Mięta", album: "Dżungla", trackNumber: 2, length: 200, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Smi", album: "Dżungla", trackNumber: 3, length: 190, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "To I Tamto (feat. Schafter)", album: "Dżungla", trackNumber: 4, length: 220, features: ["Schafter"], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Hannah Montana", album: "Dżungla", trackNumber: 5, length: 205, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Crazy Frog", album: "Dżungla", trackNumber: 6, length: 230, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Toksyny", album: "Dżungla", trackNumber: 7, length: 215, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Bozo", album: "Dżungla", trackNumber: 8, length: 205, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Jestem W Stanie (feat. Pazzy)", album: "Dżungla", trackNumber: 9, length: 225, features: ["Pazzy"], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Wwv (feat. White Widow)", album: "Dżungla", trackNumber: 10, length: 240, features: ["White Widow"], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Daj Pare Mi", album: "Dżungla", trackNumber: 11, length: 210, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Nauczyłem Się", album: "Dżungla", trackNumber: 12, length: 200, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Twoja Liga Niska (feat. Astrogxral)", album: "Dżungla", trackNumber: 13, length: 230, features: ["Astrogxral"], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Aleppo", album: "Dżungla", trackNumber: 14, length: 220, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Algorytm (feat. MłodyBa)", album: "Dżungla", trackNumber: 15, length: 235, features: ["MłodyBa"], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Jebać Twoich Ziomów", album: "Dżungla", trackNumber: 16, length: 250, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Big Jungle Shit (Outro)", album: "Dżungla", trackNumber: 17, length: 180, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Kochanie Zrozum Mnie [Bonus Track]", album: "Dżungla", trackNumber: 18, length: 240, features: [], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" },
-      { title: "Pustka [Bonus Track] (feat. Olszakumpel)", album: "Dżungla", trackNumber: 19, length: 230, features: ["Olszakumpel"], cover: "https://via.placeholder.com/300x300.png?text=Dżungla" }
+    // Używamy tej samej okładki dla wszystkich utworów (możesz ją zmienić, gdy będziesz miał dedykowane zdjęcia)
+    const albumCoverURL = "https://is3-ssl.mzstatic.com/image/thumb/Music124/v4/95/d1/03/95d103e4-6de2-9659-7d77-1d3ab0ad7a7d/cover.jpg/400x400bb.jpg";
+ 
+    // Baza piosenek Vkie – rzeczywiste utwory z różnych albumów i singli
+    const songs = [
+      // Album: Dżungla (15 października 2021)
+      { title: "My Kontra Oni", album: "Dżungla", trackNumber: 1, length: 119, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Mięta", album: "Dżungla", trackNumber: 2, length: 168, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Smi", album: "Dżungla", trackNumber: 3, length: 196, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "To I Tamto (feat. Schafter)", album: "Dżungla", trackNumber: 4, length: 179, features: ["Schafter"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Hannah Montana", album: "Dżungla", trackNumber: 5, length: 233, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Crazy Frog", album: "Dżungla", trackNumber: 6, length: 230, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Toksyny", album: "Dżungla", trackNumber: 7, length: 215, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Bozo", album: "Dżungla", trackNumber: 8, length: 205, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Jestem W Stanie (feat. Pazzy)", album: "Dżungla", trackNumber: 9, length: 225, features: ["Pazzy"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Wwv (feat. White Widow)", album: "Dżungla", trackNumber: 10, length: 240, features: ["White Widow"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Daj Pare Mi", album: "Dżungla", trackNumber: 11, length: 210, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Nauczyłem Się", album: "Dżungla", trackNumber: 12, length: 200, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Twoja Liga Niska (feat. Astrogxral)", album: "Dżungla", trackNumber: 13, length: 230, features: ["Astrogxral"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Aleppo", album: "Dżungla", trackNumber: 14, length: 220, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Algorytm (feat. MłodyBa)", album: "Dżungla", trackNumber: 15, length: 235, features: ["MłodyBa"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Jebać Twoich Ziomów", album: "Dżungla", trackNumber: 16, length: 250, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Big Jungle Shit (Outro)", album: "Dżungla", trackNumber: 17, length: 180, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Kochanie Zrozum Mnie [Bonus Track]", album: "Dżungla", trackNumber: 18, length: 240, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Pustka [Bonus Track] (feat. Olszakumpel)", album: "Dżungla", trackNumber: 19, length: 230, features: ["Olszakumpel"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+ 
+      // EP: Brak Kontroli (15 lipca 2022)
+      { title: "Tani Luz", album: "Brak Kontroli", trackNumber: 1, length: 131, features: ["Rusina"], spotify: "LINK", youtube: "LINK" },
+      { title: "OGCALI", album: "Brak Kontroli", trackNumber: 2, length: 158, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Nie Umrę Stary I Spłukany", album: "Brak Kontroli", trackNumber: 3, length: 188, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Dwa Kroki W Tył", album: "Brak Kontroli", trackNumber: 4, length: 160, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Fly", album: "Brak Kontroli", trackNumber: 5, length: 268, features: ["WHITE WIDOW", "Yung Adisz"], spotify: "LINK", youtube: "LINK" },
+      { title: "Ciężko Wam To Przyjąć", album: "Brak Kontroli", trackNumber: 6, length: 128, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Mali Chłopcy", album: "Brak Kontroli", trackNumber: 7, length: 152, features: [], spotify: "LINK", youtube: "LINK" },
+ 
+      // Album: BARBARA (23 sierpnia 2024)
+      { title: "Intro", album: "Barbara", trackNumber: 1, length: 175, features: [], spotify: "LINK", youtube: "LINK" },
+     { title: "Despero", album: "Barbara", trackNumber: 2, length: 169, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Gadu Gadu", album: "Barbara", trackNumber: 3, length: 133, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Fisherprice", album: "Barbara", trackNumber: 4, length: 247, features: ["Pazzy"], spotify: "LINK", youtube: "LINK" },
+  { title: "Jak Mam Wstać?", album: "Barbara", trackNumber: 5, length: 177, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Ekran", album: "Barbara", trackNumber: 6, length: 181, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Break Time", album: "Barbara", trackNumber: 7, length: 180, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "W Moich Stronach", album: "Barbara", trackNumber: 8, length: 182, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Kiedy Zachodzi Słońce", album: "Barbara", trackNumber: 9, length: 200, features: ["Aleshen"], spotify: "LINK", youtube: "LINK" },
+  { title: "Po Temacie", album: "Barbara", trackNumber: 10, length: 180, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Jak Film", album: "Barbara", trackNumber: 11, length: 190, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Od SK do Saskiej", album: "Barbara", trackNumber: 12, length: 210, features: ["HAŁASTRA"], spotify: "LINK", youtube: "LINK" },
+  { title: "Flegma", album: "Barbara", trackNumber: 13, length: 200, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Wciąż Jestem Chory", album: "Barbara", trackNumber: 14, length: 220, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Barbara", album: "Barbara", trackNumber: 15, length: 230, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Synergia", album: "Barbara", trackNumber: 16, length: 240, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Outro", album: "Barbara", trackNumber: 17, length: 250, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "4 Pancerni", album: "Barbara", trackNumber: 18, length: 260, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Nie Czuję Dawno", album: "Barbara", trackNumber: 19, length: 270, features: [], spotify: "LINK", youtube: "LINK" },
+  { title: "Zarabiam na Słowie", album: "Barbara", trackNumber: 20, length: 280, features: [], spotify: "LINK", youtube: "LINK" },
+ 
+      // Single (realne utwory wydane po "Dżungli")
+      { title: "Nie Miej Pretensji", album: "Single", length: 230, features: ["Macias", "White Widow"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Mali Chłopcy", album: "Single", length: 207, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Tani Luz", album: "Single", length: 220, features: ["Rusina"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "120 Wersów Żeby Zaje*ać Co Wasze", album: "Single", length: 300, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "Zemsta (feat. Rusina)", album: "Single", length: 245, features: ["Rusina"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
+      { title: "2025 FREESTYLE", album: "Single", length: 205, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL }
+ 
     ];
-    
+ 
+    // Użytkownik ma nieograniczone próby – losujemy z całej bazy!
     let eliminatedTitles = [];
-    const MAX_GUESSES = 8;
     let secretSong = null;
     let attempts = 0;
     let gameOver = false;
-    
+ 
     const guessInput = document.getElementById("guessInput");
     const guessBtn = document.getElementById("guessBtn");
     const board = document.getElementById("board");
@@ -351,8 +432,9 @@
     const restartBtn = document.getElementById("restartBtn");
     const suggestionsContainer = document.getElementById("suggestions");
     const particleContainer = document.getElementById("particle-container");
-    
-    // Funkcja pokazująca sugestie podczas wpisywania
+    const mediaButtons = document.getElementById("mediaButtons");
+ 
+    // Funkcja podpowiedzi
     function handleSuggestions() {
       const query = guessInput.value.trim().toLowerCase();
       suggestionsContainer.innerHTML = "";
@@ -360,8 +442,8 @@
         suggestionsContainer.style.display = "none";
         return;
       }
-      const matchedSongs = songsData.filter(song =>
-        song.title.toLowerCase().startsWith(query) &&
+      const matchedSongs = songs.filter(song =>
+        song.title.toLowerCase().includes(query) &&
         !eliminatedTitles.includes(song.title.toLowerCase())
       );
       if (matchedSongs.length === 0) {
@@ -381,53 +463,43 @@
       });
       suggestionsContainer.style.display = "block";
     }
-    
+ 
     guessInput.addEventListener("input", handleSuggestions);
-    
-    // Pomocnicza funkcja do dodawania strzałki
+ 
+    // Funkcja pomocnicza do dodawania strzałki
     function getArrow(guess, secret) {
       if (guess < secret) return " ↑";
       if (guess > secret) return " ↓";
       return "";
     }
-    
-    // Porównanie albumu
+ 
     function compareAlbum(guessAlbum, secretAlbum) {
       if (guessAlbum === secretAlbum) {
         return { status: "correct", label: guessAlbum };
       }
       return { status: "wrong", label: guessAlbum };
     }
-    
-    // Porównanie numeru utworu
+ 
     function compareTrackNumber(guessNum, secretNum) {
       if (guessNum === secretNum) {
         return { status: "correct", label: guessNum };
       }
       if (Math.abs(guessNum - secretNum) <= 2) {
-        return { 
-          status: "close", 
-          label: guessNum + getArrow(guessNum, secretNum)
-        };
+        return { status: "close", label: guessNum + getArrow(guessNum, secretNum) };
       }
       return { status: "wrong", label: guessNum };
     }
-    
-    // Porównanie długości utworu (w sekundach)
+ 
     function compareLength(guessLen, secretLen) {
       if (guessLen === secretLen) {
         return { status: "correct", label: formatLength(guessLen) };
       }
       if (Math.abs(guessLen - secretLen) <= 30) {
-        return { 
-          status: "close", 
-          label: formatLength(guessLen) + getArrow(guessLen, secretLen)
-        };
+        return { status: "close", label: formatLength(guessLen) + getArrow(guessLen, secretLen) };
       }
       return { status: "wrong", label: formatLength(guessLen) };
     }
-    
-    // Porównanie featured – jeżeli choć jeden element pasuje, to "close"
+ 
     function compareFeatures(guessFeatures, secretFeatures) {
       const guessLower = guessFeatures.map(f => f.toLowerCase());
       const secretLower = secretFeatures.map(f => f.toLowerCase());
@@ -441,15 +513,13 @@
       }
       return { status: "wrong", label: guessFeatures.join(", ") || "Brak" };
     }
-    
-    // Formatowanie długości (mm:ss)
+ 
     function formatLength(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
       return `${m}:${s.toString().padStart(2, "0")}`;
     }
-    
-    // Dodawanie wiersza do planszy
+ 
     function addGuessRow(guessData) {
       const rowCells = [];
       const columns = ["title", "album", "trackNumber", "length", "features"];
@@ -464,15 +534,14 @@
       rowCells.forEach(cell => rowContainer.appendChild(cell));
       board.appendChild(rowContainer);
     }
-    
-    // Funkcja generująca particle efekty (confetti) przy wygranej – zwiększona liczba cząsteczek
+ 
     function spawnParticles() {
       const colors = ["#ffcc00", "#ff6699", "#66ccff", "#99ff66", "#ff9900"];
       const numParticles = 150;
       const containerRect = particleContainer.getBoundingClientRect();
       const originX = containerRect.width / 2;
       const originY = containerRect.height / 2;
-      
+ 
       for (let i = 0; i < numParticles; i++) {
         const particle = document.createElement("div");
         particle.classList.add("particle");
@@ -490,45 +559,46 @@
         });
       }
     }
-    
-    // Obsługa zgadywania
+ 
     function handleGuess() {
       if (gameOver) return;
       const guessTitle = guessInput.value.trim();
       if (!guessTitle) return;
-      const guessedSong = songsData.find(song => song.title.toLowerCase() === guessTitle.toLowerCase());
+      const guessedSong = songs.find(song => song.title.toLowerCase() === guessTitle.toLowerCase());
       attempts++;
-    
+ 
       if (!guessedSong) {
         addGuessRow({
           title: { status: "wrong", label: guessTitle },
           album: { status: "wrong", label: "Nieznany tytuł" },
-          trackNumber: { status: "wrong", label: "?" },
-          length: { status: "wrong", label: "?" },
-          features: { status: "wrong", label: "?" }
+          trackNumber: { status: "wrong", label: "–" },
+          length: { status: "wrong", label: "–" },
+          features: { status: "wrong", label: "–" }
         });
         resultMessage.textContent = `Piosenka "${guessTitle}" nie została znaleziona.`;
         guessInput.value = "";
-        if (attempts >= MAX_GUESSES) endGame(false);
         suggestionsContainer.style.display = "none";
         return;
       }
-    
+ 
       if (guessedSong.title.toLowerCase() !== secretSong.title.toLowerCase()) {
         if (!eliminatedTitles.includes(guessedSong.title.toLowerCase())) {
           eliminatedTitles.push(guessedSong.title.toLowerCase());
         }
       }
-    
+ 
       const titleData = {
         status: (guessedSong.title.toLowerCase() === secretSong.title.toLowerCase()) ? "correct" : "wrong",
         label: guessedSong.title
       };
       const albumData = compareAlbum(guessedSong.album, secretSong.album);
-      const trackData = compareTrackNumber(guessedSong.trackNumber, secretSong.trackNumber);
+      const trackData = { 
+        status: guessedSong.trackNumber ? (guessedSong.trackNumber === secretSong.trackNumber ? "correct" : "wrong") : "wrong", 
+        label: guessedSong.trackNumber ? guessedSong.trackNumber : "–"
+      };
       const lengthData = compareLength(guessedSong.length, secretSong.length);
       const featuresData = compareFeatures(guessedSong.features, secretSong.features);
-    
+ 
       addGuessRow({
         title: titleData,
         album: albumData,
@@ -536,19 +606,16 @@
         length: lengthData,
         features: featuresData
       });
-    
+ 
       if (guessedSong.title.toLowerCase() === secretSong.title.toLowerCase()) {
         endGame(true);
         return;
-      }
-      if (attempts >= MAX_GUESSES) {
-        endGame(false);
       }
       guessInput.value = "";
       suggestionsContainer.innerHTML = "";
       suggestionsContainer.style.display = "none";
     }
-    
+ 
     function endGame(win) {
       gameOver = true;
       guessInput.disabled = true;
@@ -557,6 +624,22 @@
       if (win) {
         resultMessage.textContent = `Gratulacje! To faktycznie "${secretSong.title}"!`;
         spawnParticles();
+        mediaButtons.innerHTML = "";
+        const spotifyButton = document.createElement("button");
+        spotifyButton.className = "restart-btn";
+        spotifyButton.textContent = "Otwórz na Spotify";
+        spotifyButton.onclick = function() {
+          window.open("https://open.spotify.com/search/" + encodeURIComponent(secretSong.title), "_blank");
+        };
+        const youtubeButton = document.createElement("button");
+        youtubeButton.className = "restart-btn";
+        youtubeButton.textContent = "Otwórz na YouTube";
+        youtubeButton.onclick = function() {
+          window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(secretSong.title), "_blank");
+        };
+        mediaButtons.appendChild(spotifyButton);
+        mediaButtons.appendChild(youtubeButton);
+        mediaButtons.style.display = "flex";
       } else {
         resultMessage.textContent = `Koniec prób! Poprawna odpowiedź: "${secretSong.title}".`;
       }
@@ -564,7 +647,7 @@
       coverImage.alt = secretSong.title;
       coverImage.style.display = "block";
     }
-    
+ 
     function startGame() {
       document.querySelectorAll(".guess-row").forEach(row => row.remove());
       attempts = 0;
@@ -576,14 +659,17 @@
       coverImage.style.display = "none";
       coverImage.src = "";
       restartBtn.style.display = "none";
+      mediaButtons.innerHTML = "";
+      mediaButtons.style.display = "none";
       eliminatedTitles = [];
       suggestionsContainer.innerHTML = "";
       suggestionsContainer.style.display = "none";
       particleContainer.innerHTML = "";
-      secretSong = songsData[Math.floor(Math.random() * songsData.length)];
+      // Losujemy tajną piosenkę z całej bazy
+      secretSong = songs[Math.floor(Math.random() * songs.length)];
       console.log("Tajna piosenka:", secretSong.title);
     }
-    
+ 
     guessBtn.addEventListener("click", handleGuess);
     guessInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
@@ -591,7 +677,7 @@
       }
     });
     restartBtn.addEventListener("click", startGame);
-    
+ 
     startGame();
   </script>
 </body>
