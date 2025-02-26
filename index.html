@@ -7,321 +7,350 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="https://cdn-images.dzcdn.net/images/cover/e751ff82ccc4994421a21ceabafc7318/0x1900-000000-80-0-0.jpg" type="image/x-icon">
   <style>
-  /* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* Czarny-szary, animowany gradient tła */
-body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #000, #333);
-  background-size: 200% 200%;
-  animation: bgAnimation 20s linear infinite;
-  color: #f0f0f0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
+    /* Czarny-szary, animowany gradient tła */
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #111;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 200% 200%;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+    
+    /* Kontener dla latających kropek */
+    #dots-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    /* Styl dla pojedynczej kropki */
+    .dot {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: fly ease-in-out infinite alternate;
+    }
+    
+    /* Animacja kropek – przesunięcie o wartości określone w zmiennych CSS */
+    @keyframes fly {
+      from {
+        transform: translate(0, 0);
+      }
+      to {
+        transform: translate(var(--dx), var(--dy));
+      }
+    }
 
-@keyframes bgAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 60px;
+      margin: 20px 0;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #fff;
+      text-shadow: 3px 3px 15px rgba(0,0,0,0.8);
+      text-align: center;
+      animation: fadeIn 7s ease-out;
+    }
 
-h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 60px;
-  margin: 20px 0;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  color: #fff;
-  text-shadow: 3px 3px 15px rgba(0,0,0,0.8);
-  text-align: center;
-  animation: fadeIn 7s ease-out;
-}
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
 
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
+    .subtitle {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #ccc;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+      text-align: center;
+      transition: color 0.3s;
+    }
 
-.subtitle {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #ccc;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-  text-align: center;
-  transition: color 0.3s;
-}
+    .subtitle:hover {
+      color: #ffcc00;
+    }
 
-.subtitle:hover {
-  color: #ffcc00;
-}
+    .game-container {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
 
-.game-container {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
-  background: rgba(0, 0, 0, 0.85);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.8);
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
-}
+    .game-container:hover {
+      box-shadow: 0 0 40px rgba(0,0,0,0.9);
+    }
 
-.game-container:hover {
-  box-shadow: 0 0 40px rgba(0,0,0,0.9);
-}
+    .input-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
 
-.input-container {
-  position: relative;
-  margin-bottom: 20px;
-}
+    .input-area {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-.input-area {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+    .input-area input[type="text"] {
+      flex: 1;
+      padding: 14px;
+      font-size: 18px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      outline: none;
+      background: #222;
+      color: #f0f0f0;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
 
-.input-area input[type="text"] {
-  flex: 1;
-  padding: 14px;
-  font-size: 18px;
-  border: 2px solid #444;
-  border-radius: 6px;
-  outline: none;
-  background: #222;
-  color: #f0f0f0;
-  transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
-}
+    .input-area input[type="text"]:focus {
+      background: #2a2a2a;
+      box-shadow: 0 0 8px #ffcc00;
+      transform: scale(1.02);
+    }
 
-.input-area input[type="text"]:focus {
-  background: #2a2a2a;
-  box-shadow: 0 0 8px #ffcc00;
-  transform: scale(1.02);
-}
+    .input-area button {
+      padding: 14px 22px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #ffcc00;
+      color: #222;
+      transition: background 0.3s, transform 0.3s;
+      flex-shrink: 0;
+    }
 
-.input-area button {
-  padding: 14px 22px;
-  font-size: 18px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #ffcc00;
-  color: #222;
-  transition: background 0.3s, transform 0.3s;
-  flex-shrink: 0;
-}
+    .input-area button:hover {
+      background: #e6b800;
+      transform: scale(1.05);
+    }
 
-.input-area button:hover {
-  background: #e6b800;
-  transform: scale(1.05);
-}
+    .suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #222;
+      border: 1px solid #444;
+      border-top: none;
+      max-height: 150px;
+      overflow-y: auto;
+      z-index: 10;
+      display: none;
+      border-radius: 0 0 6px 6px;
+    }
 
-.suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: #222;
-  border: 1px solid #444;
-  border-top: none;
-  max-height: 150px;
-  overflow-y: auto;
-  z-index: 10;
-  display: none;
-  border-radius: 0 0 6px 6px;
-}
+    .suggestion-item {
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-.suggestion-item {
-  padding: 10px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+    .suggestion-item:hover {
+      background: #444;
+    }
 
-.suggestion-item:hover {
-  background: #444;
-}
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
 
-.board {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-bottom: 20px;
-}
+    .board .header {
+      font-weight: bold;
+      text-align: center;
+      padding: 8px;
+      border-bottom: 2px solid #555;
+    }
 
-.board .header {
-  font-weight: bold;
-  text-align: center;
-  padding: 8px;
-  border-bottom: 2px solid #555;
-}
+    .guess-row {
+      display: contents;
+    }
 
-.guess-row {
-  display: contents;
-}
+    .cell {
+      text-align: center;
+      padding: 12px;
+      border-radius: 6px;
+      background-color: #555;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.3s, transform 0.3s;
+    }
 
-.cell {
-  text-align: center;
-  padding: 12px;
-  border-radius: 6px;
-  background-color: #555;
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  transition: background 0.3s, transform 0.3s;
-}
+    .cell:hover {
+      transform: scale(1.05);
+    }
 
-.cell:hover {
-  transform: scale(1.05);
-}
+    .correct {
+      background-color: #3c6;
+      color: #fff;
+    }
 
-.correct {
-  background-color: #3c6;
-  color: #fff;
-}
+    .close {
+      background-color: #f1c40f;
+      color: #222;
+    }
 
-.close {
-  background-color: #f1c40f;
-  color: #222;
-}
+    .wrong {
+      background-color: #555;
+      color: #ccc;
+    }
 
-.wrong {
-  background-color: #555;
-  color: #ccc;
-}
+    .result-area {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+    }
 
-.result-area {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 20px;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-}
+    .cover-image {
+      display: block;
+      margin: 10px auto;
+      max-width: 250px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
+    }
 
-.cover-image {
-  display: block;
-  margin: 10px auto;
-  max-width: 250px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.7);
-}
+    .restart-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 14px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      background: #ffcc00;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
 
-.restart-btn {
-  display: block;
-  margin: 20px auto;
-  padding: 14px 28px;
-  font-size: 18px;
-  border: none;
-  border-radius: 6px;
-  background: #ffcc00;
-  color: #222;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-}
+    .restart-btn:hover {
+      background: #e6b800;
+      transform: scale(1.05);
+    }
 
-.restart-btn:hover {
-  background: #e6b800;
-  transform: scale(1.05);
-}
+    /* Przyciski Spotify/YouTube – wyświetlane obok siebie */
+    #mediaButtons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
 
-/* Przyciski Spotify/YouTube – wyświetlane obok siebie */
-#mediaButtons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-}
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+    }
 
-footer {
-  margin-top: 40px;
-  font-size: 14px;
-  color: #777;
-  text-align: center;
-}
+    /* Particle container */
+    #particle-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 100;
+    }
 
-/* Particle container */
-#particle-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 100;
-}
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: var(--color);
+      border-radius: 50%;
+      opacity: 1;
+      animation: particleAnimation 1s ease-out forwards;
+    }
 
-.particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color);
-  border-radius: 50%;
-  opacity: 1;
-  animation: particleAnimation 1s ease-out forwards;
-}
+    @keyframes particleAnimation {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(0.5);
+        opacity: 0;
+      }
+    }
 
-@keyframes particleAnimation {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(var(--tx), var(--ty)) scale(0.5);
-    opacity: 0;
-  }
-}
+    /* Responsywność */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 40px;
+      }
 
-/* Responsywność */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 40px;
-  }
+      .subtitle {
+        font-size: 16px;
+      }
 
-  .subtitle {
-    font-size: 16px;
-  }
+      .game-container {
+        padding: 20px;
+      }
 
-  .game-container {
-    padding: 20px;
-  }
+      .input-area input[type="text"],
+      .input-area button {
+        font-size: 16px;
+        padding: 12px;
+      }
 
-  .input-area input[type="text"],
-  .input-area button {
-    font-size: 16px;
-    padding: 12px;
-  }
+      .board .header {
+        font-size: 14px;
+        padding: 6px;
+      }
 
-  .board .header {
-    font-size: 14px;
-    padding: 6px;
-  }
+      .cell {
+        font-size: 14px;
+        padding: 8px;
+      }
 
-  .cell {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .restart-btn {
-    font-size: 16px;
-    padding: 12px 20px;
-  }
-}
-</style>
+      .restart-btn {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Kontener dla latających kropek -->
+  <div id="dots-container"></div>
+  
   <h1>Vkiedle</h1>
   <div class="subtitle">Zgadnij tajemniczy utwór Vkie – masz nieograniczone próby!</div>
   <div class="game-container">
@@ -389,32 +418,29 @@ footer {
  
       // Album: BARBARA (23 sierpnia 2024)
       { title: "Intro", album: "Barbara", trackNumber: 1, length: 175, features: [], spotify: "LINK", youtube: "LINK" },
-     { title: "Despero", album: "Barbara", trackNumber: 2, length: 169, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Gadu Gadu", album: "Barbara", trackNumber: 3, length: 133, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Fisherprice", album: "Barbara", trackNumber: 4, length: 247, features: ["Pazzy"], spotify: "LINK", youtube: "LINK" },
-  { title: "Jak Mam Wstać?", album: "Barbara", trackNumber: 5, length: 177, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Ekran", album: "Barbara", trackNumber: 6, length: 181, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Break Time", album: "Barbara", trackNumber: 7, length: 180, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "W Moich Stronach", album: "Barbara", trackNumber: 8, length: 182, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Kiedy Zachodzi Słońce", album: "Barbara", trackNumber: 9, length: 200, features: ["Aleshen"], spotify: "LINK", youtube: "LINK" },
-  { title: "Po Temacie", album: "Barbara", trackNumber: 10, length: 180, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Jak Film", album: "Barbara", trackNumber: 11, length: 190, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Od SK do Saskiej", album: "Barbara", trackNumber: 12, length: 210, features: ["HAŁASTRA"], spotify: "LINK", youtube: "LINK" },
-  { title: "Flegma", album: "Barbara", trackNumber: 13, length: 200, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Wciąż Jestem Chory", album: "Barbara", trackNumber: 14, length: 220, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Barbara", album: "Barbara", trackNumber: 15, length: 230, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Synergia", album: "Barbara", trackNumber: 16, length: 240, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Outro", album: "Barbara", trackNumber: 17, length: 250, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "4 Pancerni", album: "Barbara", trackNumber: 18, length: 260, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Nie Czuję Dawno", album: "Barbara", trackNumber: 19, length: 270, features: [], spotify: "LINK", youtube: "LINK" },
-  { title: "Zarabiam na Słowie", album: "Barbara", trackNumber: 20, length: 280, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Despero", album: "Barbara", trackNumber: 2, length: 169, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Gadu Gadu", album: "Barbara", trackNumber: 3, length: 133, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Fisherprice", album: "Barbara", trackNumber: 4, length: 247, features: ["Pazzy"], spotify: "LINK", youtube: "LINK" },
+      { title: "Jak Mam Wstać?", album: "Barbara", trackNumber: 5, length: 177, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Ekran", album: "Barbara", trackNumber: 6, length: 181, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Break Time", album: "Barbara", trackNumber: 7, length: 180, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "W Moich Stronach", album: "Barbara", trackNumber: 8, length: 182, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Kiedy Zachodzi Słońce", album: "Barbara", trackNumber: 9, length: 200, features: ["Aleshen"], spotify: "LINK", youtube:"LINK" },
+      { title: "Po Temacie", album: "Barbara", trackNumber: 10, length: 180, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Jak Film", album: "Barbara", trackNumber: 11, length: 190, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Od SK do Saskiej", album: "Barbara", trackNumber: 12, length: 210, features: ["HAŁASTRA"], spotify: "LINK", youtube: "LINK" },
+      { title: "Flegma", album: "Barbara", trackNumber: 13, length: 200, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Wciąż Jestem Chory", album: "Barbara", trackNumber: 14, length: 220, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Barbara", album: "Barbara", trackNumber: 15, length: 230, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Synergia", album: "Barbara", trackNumber: 16, length: 240, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "Outro", album: "Barbara", trackNumber: 17, length: 250, features: [], spotify: "LINK", youtube: "LINK" },
+      { title: "4 Pancerni", album: "Barbara", trackNumber: 18, length: 260, features: [], spotify: "LINK", youtube: "LINK" },
  
       // Single (realne utwory wydane po "Dżungli")
       { title: "Nie Miej Pretensji", album: "Single", length: 230, features: ["Macias", "White Widow"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
       { title: "120 Wersów Żeby Zaje*ać Co Wasze", album: "Single", length: 300, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
       { title: "Zemsta (feat. Rusina)", album: "Single", length: 245, features: ["Rusina"], spotify: "LINK", youtube: "LINK", cover: albumCoverURL },
       { title: "2025 FREESTYLE", album: "Single", length: 205, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL }
- 
     ];
  
     // Użytkownik ma nieograniczone próby – losujemy z całej bazy!
@@ -678,6 +704,40 @@ footer {
     restartBtn.addEventListener("click", startGame);
  
     startGame();
+    
+    // Parametry dla kropek – zwiększona liczba i płynniejszy ruch
+    const numDots = 100; // zwiększona liczba kropek
+    const dotsContainer = document.getElementById('dots-container');
+    
+    for (let i = 0; i < numDots; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      
+      // Losowa wielkość kropki (od 2px do 6px)
+      const size = Math.random() * 4 + 2;
+      dot.style.width = size + 'px';
+      dot.style.height = size + 'px';
+      
+      // Losowa pozycja początkowa
+      dot.style.left = Math.random() * window.innerWidth + 'px';
+      dot.style.top = Math.random() * window.innerHeight + 'px';
+      
+      // Losowy ruch: wartości przesunięcia (dx, dy) z zakresu -150 do 150 px
+      const dx = (Math.random() - 0.5) * 300;
+      const dy = (Math.random() - 0.5) * 300;
+      dot.style.setProperty('--dx', dx + 'px');
+      dot.style.setProperty('--dy', dy + 'px');
+      
+      // Losowy czas trwania animacji od 5s do 15s
+      const duration = Math.random() * 10 + 5;
+      dot.style.animationDuration = duration + 's';
+      
+      // Losowe opóźnienie animacji (do 5s)
+      const delay = Math.random() * 5;
+      dot.style.animationDelay = delay + 's';
+      
+      dotsContainer.appendChild(dot);
+    }
   </script>
 </body>
 </html>
