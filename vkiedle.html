@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vkiedle - Zgadnij utwór Vkie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="https://cdn-images.dzcdn.net/images/cover/e751ff82ccc4994421a21ceabafc7318/0x1900-000000-80-0-0.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  
+  <!-- Kontener dla latających kropek -->
+  <div id="dots-container"></div>
+  
+  <h1>Vkiedle</h1>
+  <div class="subtitle">Zgadnij tajemniczy utwór Vkie </div>
+  <div class="game-container">
+    <!-- Container na particle efekty -->
+    <div id="particle-container"></div>
+    <div class="input-container">
+      <div class="input-area">
+        <input type="text" id="guessInput" placeholder="Wpisz tytuł piosenki...">
+        <button id="guessBtn">Zgaduj</button>
+      </div>
+      <div class="suggestions" id="suggestions"></div>
+    </div>
+    <div class="board" id="board">
+      <div class="header">Tytuł</div>
+      <div class="header">Album</div>
+      <div class="header">Nr utworu</div>
+      <div class="header">Długość</div>
+      <div class="header">Goście</div>
+    </div>
+    <div class="result-area" id="resultMessage"></div>
+    <img id="coverImage" class="cover-image" src="" alt="" style="display:none;">
+    <button class="restart-btn" id="restartBtn" style="display:none;">Zagraj ponownie</button>
+    <!-- Kontener na przyciski Spotify/YouTube -->
+    <div id="mediaButtons" style="display:none;"></div>
+  </div>
+  <footer>
+    Inspirowane <a href="https://yeezle.xyz" target="_blank" style="color: #ffcc00;">yeezle.xyz</a>
+  </footer>
+  <script src="scripts.js"></script>
+</body>
+</html>
+<script src="scripts.js"></script>
