@@ -130,8 +130,12 @@ function compareTrackNumber(guessNum, secretNum) {
   if (guessNum === secretNum) {
     return { status: "correct", label: guessNum };
   }
-  if (Math.abs(guessNum - secretNum) <= 2) {
-    return { status: "close", label: guessNum + getArrow(guessNum, secretNum) };
+  // Zmiana na zawsze pokazywanie strzałki gdy numer jest niepoprawny
+  if (guessNum < secretNum) {
+    return { status: "wrong", label: guessNum + " ↑" };
+  }
+  if (guessNum > secretNum) {
+    return { status: "wrong", label: guessNum + " ↓" };
   }
   return { status: "wrong", label: guessNum };
 }
@@ -140,8 +144,12 @@ function compareLength(guessLen, secretLen) {
   if (guessLen === secretLen) {
     return { status: "correct", label: formatLength(guessLen) };
   }
-  if (Math.abs(guessLen - secretLen) <= 30) {
-    return { status: "close", label: formatLength(guessLen) + getArrow(guessLen, secretLen) };
+  // Always show arrows, similar to track number
+  if (guessLen < secretLen) {
+    return { status: "wrong", label: formatLength(guessLen) + " ↑" };
+  }
+  if (guessLen > secretLen) {
+    return { status: "wrong", label: formatLength(guessLen) + " ↓" };
   }
   return { status: "wrong", label: formatLength(guessLen) };
 }
@@ -183,10 +191,10 @@ function addGuessRow(guessData) {
 
 function spawnParticles() {
   const colors = ["#ffcc00", "#ff6699", "#66ccff", "#99ff66", "#ff9900"];
-  const numParticles = 150;
-  const containerRect = particleContainer.getBoundingClientRect();
-  const originX = containerRect.width / 2;
-  const originY = containerRect.height / 2;
+  const numParticles = 300; // Ilość cząsteczek
+  
+  const originX = window.innerWidth / 2; // Środek ekranu (szerokość)
+  const originY = window.innerHeight / 2; // Środek ekranu (wysokość)
 
   for (let i = 0; i < numParticles; i++) {
     const particle = document.createElement("div");
@@ -195,16 +203,20 @@ function spawnParticles() {
     particle.style.setProperty("--color", color);
     particle.style.left = originX + "px";
     particle.style.top = originY + "px";
-    const tx = (Math.random() - 0.5) * 300;
-    const ty = (Math.random() - 0.5) * 300;
+    
+    // Duży rozrzut na cały ekran
+    const tx = (Math.random() - 0.5) * window.innerWidth * 2;  
+    const ty = (Math.random() - 0.5) * window.innerHeight * 2;  
     particle.style.setProperty("--tx", tx + "px");
     particle.style.setProperty("--ty", ty + "px");
-    particleContainer.appendChild(particle);
+    
+    document.body.appendChild(particle);
     particle.addEventListener("animationend", () => {
       particle.remove();
     });
   }
 }
+
 
 function handleGuess() {
   if (gameOver) return;
@@ -378,32 +390,26 @@ for (let i = 0; i < numDots; i++) {
   const dot = document.createElement('div');
   dot.classList.add('dot');
   
-  // Losowa wielkość kropki (od 2px do 6px)
   const size = Math.random() * 4 + 2;
   dot.style.width = size + 'px';
   dot.style.height = size + 'px';
   
-  // Losowa pozycja początkowa
   dot.style.left = Math.random() * window.innerWidth + 'px';
   dot.style.top = Math.random() * window.innerHeight + 'px';
   
-  // Losowy ruch: wartości przesunięcia (dx, dy) z zakresu -150 do 150 px
   const dx = (Math.random() - 0.5) * 300;
   const dy = (Math.random() - 0.5) * 300;
   dot.style.setProperty('--dx', dx + 'px');
   dot.style.setProperty('--dy', dy + 'px');
   
-  // Losowy czas trwania animacji od 5s do 15s
   const duration = Math.random() * 10 + 5;
   dot.style.animationDuration = duration + 's';
   
-  // Losowe opóźnienie animacji (do 5s)
   const delay = Math.random() * 5;
   dot.style.animationDelay = delay + 's';
   
   dotsContainer.appendChild(dot);
 }
-// ... (tu wchodzi cały Twój aktualny kod z pliku scripts.js - czyli dokładnie to co wysłałeś wcześniej)
 
 function endGame(win) {
     gameOver = true;
