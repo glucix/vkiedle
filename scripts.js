@@ -1,9 +1,7 @@
-// Używamy tej samej okładki dla wszystkich utworów (możesz ją zmienić, gdy będziesz miał dedykowane zdjęcia)
 const albumCoverdzungla = "https://cdn-images.dzcdn.net/images/cover/4fdff6bb5e3cc929e69746a684e7f9d5/0x1900-000000-80-0-0.jpg";
 const albumCoverURL = "https://cdn-images.dzcdn.net/images/cover/e751ff82ccc4994421a21ceabafc7318/0x1900-000000-80-0-0.jpg";
 const albumCoverBrakKontroli = "https://i.scdn.co/image/ab67616d0000b27391cce8e6f77a32d4d8e90226";
 
-// Baza piosenek Vkie – rzeczywiste utwory z różnych albumów i singli
 const songs = [
   // Album: Dżungla (15 października 2021)
   { title: "My Kontra Oni", album: "Dżungla", trackNumber: 1, length: 119, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
@@ -64,7 +62,6 @@ const songs = [
   { title: "2025 FREESTYLE", album: "Single", length: 205, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverURL }
 ];
 
-// Użytkownik ma nieograniczone próby – losujemy z całej bazy!
 let eliminatedTitles = [];
 let secretSong = null;
 let attempts = 0;
@@ -80,7 +77,6 @@ const suggestionsContainer = document.getElementById("suggestions");
 const particleContainer = document.getElementById("particle-container");
 const mediaButtons = document.getElementById("mediaButtons");
 
-// Funkcja podpowiedzi
 function handleSuggestions() {
   const query = guessInput.value.trim().toLowerCase();
   suggestionsContainer.innerHTML = "";
@@ -112,7 +108,6 @@ function handleSuggestions() {
 
 guessInput.addEventListener("input", handleSuggestions);
 
-// Funkcja pomocnicza do dodawania strzałki
 function getArrow(guess, secret) {
   if (guess < secret) return " ↑";
   if (guess > secret) return " ↓";
@@ -130,7 +125,6 @@ function compareTrackNumber(guessNum, secretNum) {
   if (guessNum === secretNum) {
     return { status: "correct", label: guessNum };
   }
-  // Zmiana na zawsze pokazywanie strzałki gdy numer jest niepoprawny
   if (guessNum < secretNum) {
     return { status: "wrong", label: guessNum + " ↑" };
   }
@@ -144,7 +138,6 @@ function compareLength(guessLen, secretLen) {
   if (guessLen === secretLen) {
     return { status: "correct", label: formatLength(guessLen) };
   }
-  // Always show arrows, similar to track number
   if (guessLen < secretLen) {
     return { status: "wrong", label: formatLength(guessLen) + " ↑" };
   }
@@ -191,10 +184,10 @@ function addGuessRow(guessData) {
 
 function spawnParticles() {
   const colors = ["#ffcc00", "#ff6699", "#66ccff", "#99ff66", "#ff9900"];
-  const numParticles = 300; // Ilość cząsteczek
+  const numParticles = 450; 
   
-  const originX = window.innerWidth / 2; // Środek ekranu (szerokość)
-  const originY = window.innerHeight / 2; // Środek ekranu (wysokość)
+  const originX = window.innerWidth / 2; 
+  const originY = window.innerHeight / 2; 
 
   for (let i = 0; i < numParticles; i++) {
     const particle = document.createElement("div");
@@ -204,7 +197,6 @@ function spawnParticles() {
     particle.style.left = originX + "px";
     particle.style.top = originY + "px";
     
-    // Duży rozrzut na cały ekran
     const tx = (Math.random() - 0.5) * window.innerWidth * 2;  
     const ty = (Math.random() - 0.5) * window.innerHeight * 2;  
     particle.style.setProperty("--tx", tx + "px");
@@ -236,7 +228,6 @@ function handleGuess() {
     });
     resultMessage.textContent = `Piosenka "${guessTitle}" nie została znaleziona.`;
   } else {
-    // Dodanie piosenki do listy eliminowanych tytułów
     if (!eliminatedTitles.includes(guessedSong.title.toLowerCase())) {
       eliminatedTitles.push(guessedSong.title.toLowerCase());
     }
@@ -264,7 +255,6 @@ function handleGuess() {
     }
   }
 
-  // Usuwanie wpisanych tytułów z podpowiedzi
   updateSuggestions();
 
   if (attempts >= 8) {
@@ -287,7 +277,7 @@ function handleSuggestions() {
 
   const matchedSongs = songs.filter(song =>
     song.title.toLowerCase().includes(query) &&
-    !eliminatedTitles.includes(song.title.toLowerCase()) // Usuwamy już wpisane tytuły
+    !eliminatedTitles.includes(song.title.toLowerCase()) 
   );
 
   if (matchedSongs.length === 0) {
@@ -310,7 +300,6 @@ function handleSuggestions() {
   suggestionsContainer.style.display = "block";
 }
 
-// Aktualizacja podpowiedzi po każdym zgadywaniu
 function updateSuggestions() {
   handleSuggestions();
 }
@@ -367,7 +356,6 @@ function startGame() {
   suggestionsContainer.innerHTML = "";
   suggestionsContainer.style.display = "none";
   particleContainer.innerHTML = "";
-  // Losujemy tajną piosenkę z całej bazy
   secretSong = songs[Math.floor(Math.random() * songs.length)];
   console.log("Tajna piosenka:", secretSong.title);
 }
@@ -382,8 +370,7 @@ restartBtn.addEventListener("click", startGame);
 
 startGame();
 
-// Parametry dla kropek – zwiększona liczba i płynniejszy ruch
-const numDots = 100; // zwiększona liczba kropek
+const numDots = 100; // z
 const dotsContainer = document.getElementById('dots-container');
 
 for (let i = 0; i < numDots; i++) {
@@ -423,7 +410,6 @@ function endGame(win) {
 
         mediaButtons.innerHTML = "";
 
-        // Nowe przyciski
         const spotifyButton = document.createElement("button");
         spotifyButton.className = "spotify-btn";
         spotifyButton.innerHTML = `
@@ -453,5 +439,4 @@ function endGame(win) {
     coverImage.style.display = "block";
 }
 
-// ... (reszta Twojego kodu z scripts.js)
 
