@@ -481,6 +481,121 @@ h1::after {
     }
   }
 
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+        letter-spacing: 4px;
+        margin: 20px 0;
+    }
+
+    h1::after {
+        width: 90%;
+        bottom: -6px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .game-container {
+        padding: 15px;
+        margin: 0 10px;
+    }
+
+    .input-area {
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .input-area input[type="text"],
+    .input-area button {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .board {
+        gap: 4px;
+        padding: 10px;
+        margin: 15px 0;
+        font-size: 12px;
+    }
+
+    .board .header {
+        font-size: 11px;
+        padding: 6px 4px;
+        letter-spacing: 0;
+    }
+
+    .cell {
+        padding: 8px 4px;
+        font-size: 11px;
+        min-height: 40px;
+        border-radius: 6px;
+    }
+
+    .suggestions {
+        max-height: 120px;
+    }
+
+    .suggestion-item {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .restart-btn {
+        font-size: 14px;
+        padding: 10px 16px;
+        margin: 15px auto;
+    }
+
+    #mediaButtons {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    #mediaButtons button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        justify-content: center;
+    }
+
+    .cover-image {
+        max-width: 200px;
+        margin: 8px auto;
+    }
+
+    .result-area {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 375px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    .board {
+        gap: 3px;
+        padding: 8px;
+    }
+
+    .cell {
+        padding: 6px 3px;
+        font-size: 10px;
+        min-height: 35px;
+    }
+
+    .board .header {
+        font-size: 10px;
+        padding: 4px 2px;
+    }
+}
+
 #mediaButtons {
     display: flex;
     justify-content: center;
