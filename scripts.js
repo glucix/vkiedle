@@ -19,7 +19,7 @@ const songs = [
   { title: "Twoja Liga Niska (feat. Astrogxral)", album: "Dżungla", trackNumber: 13, length: 230, features: ["Astrogxral"], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
   { title: "Aleppo", album: "Dżungla", trackNumber: 14, length: 220, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
   { title: "Algorytm (feat. MłodyBa)", album: "Dżungla", trackNumber: 15, length: 235, features: ["MłodyBa"], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
-  { title: "Jebać Twoich Ziomów", album: "Dżungla", trackNumber: 16, length: 250, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
+  { title: "Jeb Twoich Ziomów", album: "Dżungla", trackNumber: 16, length: 250, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
   { title: "Big Jungle Shit (Outro)", album: "Dżungla", trackNumber: 17, length: 180, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
   { title: "Kochanie Zrozum Mnie [Bonus Track]", album: "Dżungla", trackNumber: 18, length: 240, features: [], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
   { title: "Pustka [Bonus Track] (feat. Olszakumpel)", album: "Dżungla", trackNumber: 19, length: 230, features: ["Olszakumpel"], spotify: "LINK", youtube: "LINK", cover: albumCoverdzungla },
